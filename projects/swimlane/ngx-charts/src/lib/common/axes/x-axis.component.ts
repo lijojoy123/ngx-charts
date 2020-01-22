@@ -6,7 +6,8 @@ import {
   EventEmitter,
   OnChanges,
   ViewChild,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  TemplateRef
 } from '@angular/core';
 
 import { XAxisTicksComponent } from './x-axis-ticks.component';
@@ -30,6 +31,8 @@ import { XAxisTicksComponent } from './x-axis-ticks.component';
         [gridLineHeight]="dims.height"
         [width]="dims.width"
         [tickValues]="ticks"
+        [widgetTemplate]="widgetTemplate"
+        [xAxisWidgetValue]="xAxisWidgetValue"
         (dimensionsChanged)="emitTicksHeight($event)"
       />
       <svg:g
@@ -60,9 +63,9 @@ export class XAxisComponent implements OnChanges {
   @Input() xAxisTickCount: any;
   @Input() xOrient: string = 'bottom';
   @Input() xAxisOffset: number = 0;
-
+  @Input() widgetTemplate: TemplateRef<any>;
+  @Input()  xAxisWidgetValue: any;
   @Output() dimensionsChanged = new EventEmitter();
-
   xAxisClassName: string = 'x axis';
 
   tickArguments: any;

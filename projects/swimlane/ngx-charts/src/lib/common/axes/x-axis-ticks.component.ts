@@ -8,7 +8,8 @@ import {
   ViewChild,
   SimpleChanges,
   AfterViewInit,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  TemplateRef
 } from '@angular/core';
 import { trimLabel } from '../trim-label.helper';
 import { reduceTicks } from './ticks.helper';
@@ -29,6 +30,12 @@ import { reduceTicks } from './ticks.helper';
         </svg:text>
       </svg:g>
     </svg:g>
+
+  <svg:g *ngFor="let value of xAxisWidgetValue; let i = index" class="foreign-object" [attr.transform]="tickTransform(ticks[i])">
+   <foreignObject width="80" height="60">
+       <ng-template [ngTemplateOutlet]="widgetTemplate" [ngTemplateOutletContext]="{ model: value }"> </ng-template>
+    </foreignObject>
+  </svg:g>
 
     <svg:g *ngFor="let tick of ticks" [attr.transform]="tickTransform(tick)">
       <svg:g *ngIf="showGridLines" [attr.transform]="gridLineTransform()">
@@ -51,9 +58,10 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   @Input() gridLineHeight;
   @Input() width;
   @Input() rotateTicks: boolean = true;
-
+  @Input() widgetTemplate: TemplateRef<any>;
+  @Input() xAxisWidgetValue: any;
   @Output() dimensionsChanged = new EventEmitter();
-
+test:String="nothing";
   verticalSpacing: number = 20;
   rotateLabels: boolean = false;
   innerTickSize: number = 6;

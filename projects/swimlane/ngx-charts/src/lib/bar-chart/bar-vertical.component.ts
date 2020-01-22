@@ -43,6 +43,8 @@ import { DataItem } from '../models/chart-data.model';
           [ticks]="xAxisTicks"
           [xAxisOffset]="dataLabelMaxHeight.negative"
           (dimensionsChanged)="updateXAxisHeight($event)"
+          [widgetTemplate]="widgetTemplate"
+          [xAxisWidgetValue]="xAxisWidgetValue"
         ></svg:g>
         <svg:g
           ngx-charts-y-axis
@@ -118,11 +120,13 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() showDataLabel: boolean = false;
   @Input() dataLabelFormatting: any;
   @Input() noBarWhenZero: boolean = true;
-
+  @Input() xAxisWidgetValue: any;
+  
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
 
   @ContentChild('tooltipTemplate') tooltipTemplate: TemplateRef<any>;
+  @ContentChild('widgetTemplate') widgetTemplate: TemplateRef<any>;
 
   dims: ViewDimensions;
   xScale: any;
