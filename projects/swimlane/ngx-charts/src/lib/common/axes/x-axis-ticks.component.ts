@@ -17,10 +17,11 @@ import { reduceTicks } from './ticks.helper';
 @Component({
   selector: 'g[ngx-charts-x-axis-ticks]',
   template: `
-    <svg:g #ticksel>
-      <svg:g *ngFor="let tick of ticks" class="tick" [attr.transform]="tickTransform(tick)">
+    <svg:g #ticksel >
+      <svg:g  *ngFor="let tick of ticks" class="tick" [attr.transform]="tickTransform(tick)">
         <title>{{ tickFormat(tick) }}</title>
         <svg:text
+          *ngIf="!xAxisTemplate"
           stroke-width="0.01"
           [attr.text-anchor]="textAnchor"
           [attr.transform]="textTransform"
@@ -31,9 +32,9 @@ import { reduceTicks } from './ticks.helper';
       </svg:g>
     </svg:g>
 
-  <svg:g *ngFor="let value of xAxisWidgetValue; let i = index" class="foreign-object" [attr.transform]="tickTransform(ticks[i])">
+  <svg:g *ngFor="let value of xAxisTemplateValue; let i = index" class="foreign-object" [attr.transform]="tickTransform(ticks[i])">
    <foreignObject width="80" height="60">
-       <ng-template [ngTemplateOutlet]="widgetTemplate" [ngTemplateOutletContext]="{ model: value }"> </ng-template>
+       <ng-template [ngTemplateOutlet]="xAxisTemplate" [ngTemplateOutletContext]="{ model: value }"> </ng-template>
     </foreignObject>
   </svg:g>
 
@@ -58,10 +59,10 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   @Input() gridLineHeight;
   @Input() width;
   @Input() rotateTicks: boolean = true;
-  @Input() widgetTemplate: TemplateRef<any>;
-  @Input() xAxisWidgetValue: any;
+  @Input() xAxisTemplate: TemplateRef<any>;
+  @Input() xAxisTemplateValue: any;
   @Output() dimensionsChanged = new EventEmitter();
-test:String="nothing";
+
   verticalSpacing: number = 20;
   rotateLabels: boolean = false;
   innerTickSize: number = 6;

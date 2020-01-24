@@ -31,8 +31,8 @@ import { XAxisTicksComponent } from './x-axis-ticks.component';
         [gridLineHeight]="dims.height"
         [width]="dims.width"
         [tickValues]="ticks"
-        [widgetTemplate]="widgetTemplate"
-        [xAxisWidgetValue]="xAxisWidgetValue"
+        [xAxisTemplate]="xAxisTemplate"
+        [xAxisTemplateValue]="xAxisTemplateValue"
         (dimensionsChanged)="emitTicksHeight($event)"
       />
       <svg:g
@@ -63,8 +63,8 @@ export class XAxisComponent implements OnChanges {
   @Input() xAxisTickCount: any;
   @Input() xOrient: string = 'bottom';
   @Input() xAxisOffset: number = 0;
-  @Input() widgetTemplate: TemplateRef<any>;
-  @Input()  xAxisWidgetValue: any;
+  @Input() xAxisTemplate: TemplateRef<any>;
+  @Input() xAxisTemplateValue: any;
   @Output() dimensionsChanged = new EventEmitter();
   xAxisClassName: string = 'x axis';
 
