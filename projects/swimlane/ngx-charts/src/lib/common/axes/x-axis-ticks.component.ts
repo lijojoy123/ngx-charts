@@ -21,7 +21,6 @@ import { reduceTicks } from './ticks.helper';
       <svg:g  *ngFor="let tick of ticks" class="tick" [attr.transform]="tickTransform(tick)">
         <title>{{ tickFormat(tick) }}</title>
         <svg:text
-          *ngIf="!xAxisTemplate"
           stroke-width="0.01"
           [attr.text-anchor]="textAnchor"
           [attr.transform]="textTransform"
@@ -59,8 +58,11 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   @Input() gridLineHeight;
   @Input() width;
   @Input() rotateTicks: boolean = true;
+
   @Input() xAxisTemplate: TemplateRef<any>;
   @Input() xAxisTemplateValue: any;
+  @Input() xAxisTickTranslate: number =  0.5;
+
   @Output() dimensionsChanged = new EventEmitter();
 
   verticalSpacing: number = 20;
@@ -117,7 +119,7 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
 
     this.adjustedScale = this.scale.bandwidth
       ? function(d) {
-          return this.scale(d) + this.scale.bandwidth() * 0.5;
+          return this.scale(d) + this.scale.bandwidth() * (this.xAxisTickTranslate === undefined? 0.5: this.xAxisTickTranslate);
         }
       : this.scale;
 

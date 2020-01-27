@@ -45,6 +45,7 @@ import { DataItem } from '../models/chart-data.model';
           (dimensionsChanged)="updateXAxisHeight($event)"
           [xAxisTemplate]="xAxisTemplate"
           [xAxisTemplateValue]="xAxisTemplateValue"
+          [xAxisTickTranslate] ="xAxisTickTranslate"
         ></svg:g>
         <svg:g
           ngx-charts-y-axis
@@ -121,6 +122,7 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() dataLabelFormatting: any;
   @Input() noBarWhenZero: boolean = true;
   @Input() xAxisTemplateValue: any;
+  @Input() xAxisTickTranslate: number;
   
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();

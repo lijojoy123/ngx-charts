@@ -108,6 +108,7 @@ export class SeriesVerticalComponent implements OnChanges {
     let width;
     if (this.series.length) {
       width = this.xScale.bandwidth();
+      //width = 20;
     }
     width = Math.round(width);
     const yScaleMin = Math.max(this.yScale.domain()[0], 0);
