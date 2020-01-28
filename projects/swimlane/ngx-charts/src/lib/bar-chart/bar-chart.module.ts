@@ -12,6 +12,7 @@ import { BarVerticalStackedComponent } from './bar-vertical-stacked.component';
 import { SeriesHorizontal } from './series-horizontal.component';
 import { SeriesVerticalComponent } from './series-vertical.component';
 import { BarLabelComponent } from './bar-label.component';
+import { BarTemplateComponent } from './bar-template.component';
 
 @NgModule({
   imports: [ChartCommonModule],
@@ -27,7 +28,8 @@ import { BarLabelComponent } from './bar-label.component';
     BarVerticalStackedComponent,
     BarLabelComponent,
     SeriesHorizontal,
-    SeriesVerticalComponent
+    SeriesVerticalComponent,
+    BarTemplateComponent
   ],
   exports: [
     BarComponent,
@@ -42,6 +44,7 @@ import { BarLabelComponent } from './bar-label.component';
     BarLabelComponent,
     SeriesHorizontal,
     SeriesVerticalComponent
+
   ]
 })
 export class BarChartModule {}

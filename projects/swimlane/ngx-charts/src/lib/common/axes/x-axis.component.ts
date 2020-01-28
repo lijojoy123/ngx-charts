@@ -34,6 +34,7 @@ import { XAxisTicksComponent } from './x-axis-ticks.component';
         [xAxisTemplate]="xAxisTemplate"
         [xAxisTemplateValue]="xAxisTemplateValue"
         [xAxisTickTranslate] ="xAxisTickTranslate"
+        [showxAxisTemplate] ="showxAxisTemplate"
         (dimensionsChanged)="emitTicksHeight($event)"
       />
       <svg:g
@@ -67,6 +68,7 @@ export class XAxisComponent implements OnChanges {
   @Input() xAxisTemplate: TemplateRef<any>;
   @Input() xAxisTemplateValue: any;
   @Input() xAxisTickTranslate:number;
+  @Input() showxAxisTemplate: boolean;
   @Output() dimensionsChanged = new EventEmitter();
   xAxisClassName: string = 'x axis';
 

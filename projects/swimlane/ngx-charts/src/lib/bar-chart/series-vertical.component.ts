@@ -55,6 +55,20 @@ export enum D0Types {
         (dimensionsChanged)="dataLabelHeightChanged.emit({ size: $event, index: i })"
       />
     </svg:g>
+    <svg:g>
+      <svg:g
+        ngx-charts-bar-template
+        *ngFor="let b of barsForDataLabels; let i = index; trackBy: trackDataLabelBy"
+        [barX]="b.x"
+        [barY]="b.y"
+        [barWidth]="b.width"
+        [barHeight]="b.height"
+        [barTemplate]="barTemplate"
+        [barTemplateValue]="barTemplateValue[i]"
+        (dimensionsChanged)="dataLabelHeightChanged.emit({ size: $event, index: i })"
+      />
+  </svg:g>
+    
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
@@ -85,6 +99,8 @@ export class SeriesVerticalComponent implements OnChanges {
   @Input() showDataLabel: boolean = false;
   @Input() dataLabelFormatting: any;
   @Input() noBarWhenZero: boolean = true;
+  @Input() barTemplate : TemplateRef<any>;
+  @Input() barTemplateValue; any;
 
   @Output() select = new EventEmitter();
   @Output() activate = new EventEmitter();

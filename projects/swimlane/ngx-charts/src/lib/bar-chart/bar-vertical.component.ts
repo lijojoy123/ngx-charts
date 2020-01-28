@@ -46,6 +46,7 @@ import { DataItem } from '../models/chart-data.model';
           [xAxisTemplate]="xAxisTemplate"
           [xAxisTemplateValue]="xAxisTemplateValue"
           [xAxisTickTranslate] ="xAxisTickTranslate"
+          [showxAxisTemplate] ="showxAxisTemplate"
         ></svg:g>
         <svg:g
           ngx-charts-y-axis
@@ -80,6 +81,9 @@ import { DataItem } from '../models/chart-data.model';
           (activate)="onActivate($event)"
           (deactivate)="onDeactivate($event)"
           (select)="onClick($event)"
+          [barTemplate] ="barTemplate"
+          [barTemplateValue] ="barTemplateValue"
+    
           (dataLabelHeightChanged)="onDataLabelMaxHeightChanged($event)"
         ></svg:g>
       </svg:g>
@@ -123,13 +127,16 @@ export class BarVerticalComponent extends BaseChartComponent {
   @Input() noBarWhenZero: boolean = true;
   @Input() xAxisTemplateValue: any;
   @Input() xAxisTickTranslate: number;
-  
+  @Input() showxAxisTemplate: boolean;
+  @Input() barTemplateValue: any;
+
   @Output() activate: EventEmitter<any> = new EventEmitter();
   @Output() deactivate: EventEmitter<any> = new EventEmitter();
 
   @ContentChild('tooltipTemplate', {static:false}) tooltipTemplate: TemplateRef<any>;
   @ContentChild('xAxisTemplate',  {static:false}) xAxisTemplate: TemplateRef<any>;
-
+  @ContentChild('barTemplate',  {static:false}) barTemplate: TemplateRef<any>;
+  
   dims: ViewDimensions;
   xScale: any;
   yScale: any;

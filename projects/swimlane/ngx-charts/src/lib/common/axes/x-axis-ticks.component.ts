@@ -21,6 +21,7 @@ import { reduceTicks } from './ticks.helper';
       <svg:g  *ngFor="let tick of ticks" class="tick" [attr.transform]="tickTransform(tick)">
         <title>{{ tickFormat(tick) }}</title>
         <svg:text
+
           stroke-width="0.01"
           [attr.text-anchor]="textAnchor"
           [attr.transform]="textTransform"
@@ -31,8 +32,9 @@ import { reduceTicks } from './ticks.helper';
       </svg:g>
     </svg:g>
 
-  <svg:g *ngFor="let value of xAxisTemplateValue; let i = index" class="foreign-object" [attr.transform]="tickTransform(ticks[i])">
-   <foreignObject width="80" height="60">
+  <svg:g #xaxistemplatele *ngFor="let value of xAxisTemplateValue; let i = index" class="foreign-object"
+       [attr.transform]="tickWidgetTransform(ticks[i])">
+   <foreignObject width="80" height="60"  *ngIf="showxAxisTemplate">
        <ng-template [ngTemplateOutlet]="xAxisTemplate" [ngTemplateOutletContext]="{ model: value }"> </ng-template>
     </foreignObject>
   </svg:g>
@@ -62,6 +64,8 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   @Input() xAxisTemplate: TemplateRef<any>;
   @Input() xAxisTemplateValue: any;
   @Input() xAxisTickTranslate: number =  0.5;
+  @Input() showxAxisTemplate: boolean = false;
+
 
   @Output() dimensionsChanged = new EventEmitter();
 
@@ -80,7 +84,8 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   height: number = 0;
 
   @ViewChild('ticksel') ticksElement: ElementRef;
-
+  @ViewChild('xaxistemplatele') xAxisTempElemnt: ElementRef;
+  
   ngOnChanges(changes: SimpleChanges): void {
     this.update();
   }
@@ -90,7 +95,9 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   }
 
   updateDims(): void {
-    const height = parseInt(this.ticksElement.nativeElement.getBoundingClientRect().height, 10);
+   // const height = parseInt(this.ticksElement.nativeElement.getBoundingClientRect().height, 10);
+    const height =  Math.max(parseInt(this.ticksElement.nativeElement.getBoundingClientRect().height, 10),
+             parseInt(this.xAxisTempElemnt.nativeElement.getBoundingClientRect().height, 10));
     if (height !== this.height) {
       this.height = height;
       this.dimensionsChanged.emit({ height });
@@ -118,8 +125,8 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
     const angle = this.rotateTicks ? this.getRotationAngle(this.ticks) : null;
 
     this.adjustedScale = this.scale.bandwidth
-      ? function(d) {
-          return this.scale(d) + this.scale.bandwidth() * (this.xAxisTickTranslate === undefined? 0.5: this.xAxisTickTranslate);
+      ? function(d, s) {
+          return this.scale(d) + this.scale.bandwidth() * (s === undefined? 0.5: s);
         }
       : this.scale;
 
@@ -188,7 +195,12 @@ export class XAxisTicksComponent implements OnChanges, AfterViewInit {
   }
 
   tickTransform(tick): string {
-    return 'translate(' + this.adjustedScale(tick) + ',' + this.verticalSpacing + ')';
+    return 'translate(' + this.adjustedScale(tick, 0) + ',' + this.verticalSpacing + ')';
+  }
+
+  
+  tickWidgetTransform(tick): string {
+    return 'translate(' + this.adjustedScale(tick, 0.5) + ',' + this.verticalSpacing + ')';
   }
 
   gridLineTransform(): string {
